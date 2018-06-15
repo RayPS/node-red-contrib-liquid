@@ -1,7 +1,7 @@
 {
     "name": "node-red-contrib-liquid",
     "version": "0.0.1",
-    "description": "liquid template node for Node-RED",
+    "description": "Liquid template node for Node-RED",
     "dependencies": {
         "liquidjs": "~4.0.0"
     },
