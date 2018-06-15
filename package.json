@@ -1,0 +1,29 @@
+{
+    "name": "node-red-contrib-liquid",
+    "version": "0.0.1",
+    "description": "liquid template node for Node-RED",
+    "dependencies": {
+        "liquidjs": "~4.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RayPS/node-red-contrib-liquid"
+    },
+    "license": "Apache-2.0",
+    "keywords": [
+        "node-red",
+        "liquid",
+        "markup",
+        "template"
+    ],
+    "node-red": {
+        "nodes": {
+            "liquid": "liquid.js"
+        }
+    },
+    "author": {
+        "name": "Ray",
+        "email": "ray@rayps.com",
+        "url": "http://rayps.com"
+    }
+}
