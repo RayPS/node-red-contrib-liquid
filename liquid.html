@@ -1,5 +1,5 @@
 
-<script type="text/x-red" data-template-name="template">
+<script type="text/x-red" data-template-name="liquid">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
         <input type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
@@ -48,7 +48,7 @@
 
 </script>
 
-<script type="text/x-red" data-help-name="template">
+<script type="text/x-red" data-help-name="liquid">
     <p>Sets a property based on the provided template.</p>
     <h3>Inputs</h3>
     <dl class="message-properties">
@@ -83,7 +83,7 @@
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('template',{
+    RED.nodes.registerType('liquid',{
         color:"rgb(243, 181, 103)",
         category: 'function',
         defaults: {

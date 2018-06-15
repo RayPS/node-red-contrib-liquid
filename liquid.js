@@ -16,63 +16,63 @@
 
 module.exports = function(RED) {
     'use strict';
-    var mustache = require('mustache');
-    var yaml = require('js-yaml');
+    // var mustache = require('mustache');
+    // var yaml = require('js-yaml');
 
 
     /**
      * Custom Mustache Context capable to resolve message property and node
      * flow and global context
      */
-    function NodeContext(msg, nodeContext, parent, escapeStrings) {
-        this.msgContext = new mustache.Context(msg,parent);
-        this.nodeContext = nodeContext;
-        this.escapeStrings = escapeStrings;
-    }
+    // function NodeContext(msg, nodeContext, parent, escapeStrings) {
+    //     // this.msgContext = new mustache.Context(msg,parent);
+    //     this.nodeContext = nodeContext;
+    //     this.escapeStrings = escapeStrings;
+    // }
 
-    NodeContext.prototype = new mustache.Context();
+    // NodeContext.prototype = new mustache.Context();
 
-    NodeContext.prototype.lookup = function (name) {
-        // try message first:
-        try {
-            var value = this.msgContext.lookup(name);
-            if (value !== undefined) {
-                if (this.escapeStrings && typeof value === 'string') {
-                    value = value.replace(/\\/g, '\\\\');
-                    value = value.replace(/\n/g, '\\n');
-                    value = value.replace(/\t/g, '\\t');
-                    value = value.replace(/\r/g, '\\r');
-                    value = value.replace(/\f/g, '\\f');
-                    value = value.replace(/[\b]/g, '\\b');
-                }
-                return value;
-            }
+    // NodeContext.prototype.lookup = function (name) {
+    //     // try message first:
+    //     try {
+    //         var value = this.msgContext.lookup(name);
+    //         if (value !== undefined) {
+    //             if (this.escapeStrings && typeof value === 'string') {
+    //                 value = value.replace(/\\/g, '\\\\');
+    //                 value = value.replace(/\n/g, '\\n');
+    //                 value = value.replace(/\t/g, '\\t');
+    //                 value = value.replace(/\r/g, '\\r');
+    //                 value = value.replace(/\f/g, '\\f');
+    //                 value = value.replace(/[\b]/g, '\\b');
+    //             }
+    //             return value;
+    //         }
 
-            // try node context:
-            var dot = name.indexOf('.');
-            /* istanbul ignore else  */
-            if (dot > 0) {
-                var contextName = name.substr(0, dot);
-                var variableName = name.substr(dot + 1);
+    //         // try node context:
+    //         var dot = name.indexOf('.');
+    //         /* istanbul ignore else  */
+    //         if (dot > 0) {
+    //             var contextName = name.substr(0, dot);
+    //             var variableName = name.substr(dot + 1);
 
-                if (contextName === 'flow' && this.nodeContext.flow) {
-                    return this.nodeContext.flow.get(variableName);
-                }
-                else if (contextName === 'global' && this.nodeContext.global) {
-                    return this.nodeContext.global.get(variableName);
-                }
-            }
-        }
-        catch(err) {
-            throw err;
-        }
-    };
+    //             if (contextName === 'flow' && this.nodeContext.flow) {
+    //                 return this.nodeContext.flow.get(variableName);
+    //             }
+    //             else if (contextName === 'global' && this.nodeContext.global) {
+    //                 return this.nodeContext.global.get(variableName);
+    //             }
+    //         }
+    //     }
+    //     catch(err) {
+    //         throw err;
+    //     }
+    // };
 
-    NodeContext.prototype.push = function push (view) {
-        return new NodeContext(view, this.nodeContext,this.msgContext);
-    };
+    // NodeContext.prototype.push = function push (view) {
+    //     return new NodeContext(view, this.nodeContext,this.msgContext);
+    // };
 
-    function TemplateNode(n) {
+    function LiquidNode(n) {
         RED.nodes.createNode(this,n);
         this.name = n.name;
         this.field = n.field || 'payload';
@@ -98,9 +98,9 @@ module.exports = function(RED) {
 
                 if (node.syntax === 'mustache') {
                     if (node.outputFormat === 'json') {
-                        value = mustache.render(template,new NodeContext(msg, node.context(), null, true));
+                        // value = mustache.render(template,new NodeContext(msg, node.context(), null, true));
                     } else {
-                        value = mustache.render(template,new NodeContext(msg, node.context(), null, false));
+                        // value = mustache.render(template,new NodeContext(msg, node.context(), null, false));
                     }
                 } else {
                     value = template;
@@ -110,9 +110,9 @@ module.exports = function(RED) {
                     value = JSON.parse(value);
                 }
                 /* istanbul ignore else  */
-                if (node.outputFormat === 'yaml') {
-                    value = yaml.load(value);
-                }
+                // if (node.outputFormat === 'yaml') {
+                //     value = yaml.load(value);
+                // }
 
                 if (node.fieldType === 'msg') {
                     RED.util.setMessageProperty(msg,node.field,value);
@@ -129,6 +129,6 @@ module.exports = function(RED) {
         });
     }
 
-    RED.nodes.registerType('template',TemplateNode);
-    RED.library.register('templates');
+    RED.nodes.registerType('liquid',LiquidNode);
+    RED.library.register('liquid-templates');
 };
